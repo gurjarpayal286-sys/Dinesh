@@ -69,7 +69,7 @@
             text-align: center;
         }
 
-        /* 2. Glassmorphic Security Box (iPhone Keypad Lock) */
+        /* 2. Glassmorphic Security Box (Android Optimized Keypad Lock) */
         .lock-screen h2 {
             font-size: 1.1rem;
             font-weight: 400;
@@ -78,24 +78,23 @@
             letter-spacing: 0.5px;
         }
         
-        .passcode-dots {
+        /* एंड्रॉइड के लिए नंबर दिखने वाला डिस्प्ले बॉक्स */
+        .passcode-display {
+            width: 100%;
+            max-width: 200px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin: 0 auto 25px auto;
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .dot {
-            width: 12px;
-            height: 12px;
-            border: 1.5px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            transition: all 0.1s ease;
-        }
-        
-        .dot.active {
-            background: #ffffff;
-            box-shadow: 0 0 10px #ffffff;
+            align-items: center;
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            font-weight: 600;
+            color: #00f2fe;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
         }
 
         .keypad {
@@ -199,12 +198,11 @@
     <!-- Main Dynamic Glass Box -->
     <div class="container" id="mainContainer">
         
-        <!-- 2. iPhone Passcode Lock Screen -->
+        <!-- 2. Android Optimized Passcode Lock Screen -->
         <div class="lock-screen" id="lockScreen">
             <h2>Enter Passcode</h2>
-            <div class="passcode-dots">
-                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-            </div>
+            <!-- नंबर दिखने वाला बॉक्स (Android Fix) -->
+            <div class="passcode-display" id="passCodeBox"></div>
             
             <div class="keypad">
                 <div class="key" onclick="pressKey('1')"><span>1</span><small>&nbsp;</small></div>
@@ -218,7 +216,7 @@
                 <div class="key" onclick="pressKey('9')"><span>9</span><small>WXYZ</small></div>
                 <div class="key" style="opacity: 0; pointer-events: none;"></div>
                 <div class="key" onclick="pressKey('0')"><span>0</span><small>&nbsp;</small></div>
-                <div class="key" onclick="clearPasscode()"><span style="font-size:1rem; font-weight:600;">DELETE</span></div>
+                <div class="key" onclick="clearPasscode()"><span style="font-size:0.9rem; font-weight:600;">DEL</span></div>
             </div>
         </div>
 
@@ -233,51 +231,46 @@
 
     <script>
         // 2. Audio Mechanics (Tick Sound) & Vibrations
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let audioCtx;
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
         function playTickSound() {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.05);
+            try {
+                initAudioContext();
+                if (audioCtx && audioCtx.state !== 'suspended') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.05);
+                }
+            } catch(e) { console.log(e); }
         }
 
         function triggerVibration() {
             if (navigator.vibrate) navigator.vibrate(15);
         }
 
-        // Passcode Target Definition (Change '2026' to any 4-digit code/Birth year you like)
+        // Passcode Target Definition
         const CORRECT_PASSCODE = "2026"; 
         let currentInput = "";
 
         function pressKey(num) {
             if (currentInput.length >= 4) return;
+            initAudioContext();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             playTickSound();
             triggerVibration();
             currentInput += num;
-            updateDots();
-            if (currentInput.length === 4) {
-                setTimeout(verifyPasscode, 250);
-            }
-        }
-
-        function clearPasscode() {
-            playTickSound();
-            currentInput = "";
-            updateDots();
-        }
-
-        function updateDots() {
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                if (index < currentInput.length) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        }
-
-        function verifyPasscode() {
+            updateDisplay();
