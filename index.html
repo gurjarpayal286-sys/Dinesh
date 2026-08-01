@@ -29,7 +29,7 @@
             color: #ffffff;
         }
 
-        /* 1. 3D Interactive Neon Core */
+        /* 3D Interactive Neon Core */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -42,7 +42,7 @@
         .orb-2 { width: 400px; height: 400px; background: #00f2fe; bottom: -100px; right: -100px; }
         .orb-3 { width: 300px; height: 300px; background: #7928ca; top: 40%; left: 30%; }
 
-        /* 5. Hyper-Realistic Fluid Heart Rain Canvas */
+        /* Floating Heart Rain Canvas */
         canvas {
             position: absolute;
             top: 0;
@@ -57,89 +57,63 @@
         .container {
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 380px;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.03);
+            width: 85%;
+            max-width: 360px;
+            padding: 40px 25px;
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 32px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,255,255,0.05);
-            text-align: center;
-        }
-
-        /* 2. Glassmorphic Security Box (Android Optimized Keypad Lock) */
-        .lock-screen h2 {
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-bottom: 15px;
-            color: #eaeaea;
-            letter-spacing: 0.5px;
-        }
-        
-        /* एंड्रॉइड के लिए नंबर दिखने वाला डिस्प्ले बॉक्स */
-        .passcode-display {
-            width: 100%;
-            max-width: 200px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            margin: 0 auto 25px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            letter-spacing: 8px;
+            border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        /* Android Fix: Direct Unlock Magic Button */
+        .lock-screen h2 {
+            font-size: 1.4rem;
             font-weight: 600;
-            color: #00f2fe;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            justify-items: center;
-            max-width: 280px;
-            margin: 0 auto;
+        .lock-screen p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
         }
 
-        .key {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .magic-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff007f 100%);
+            border: none;
+            outline: none;
+            border-radius: 16px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 0, 127, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: background 0.1s;
+            gap: 10px;
         }
 
-        .key:active {
-            background: rgba(255, 255, 255, 0.25);
+        .magic-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
         }
 
-        .key span { font-size: 1.6rem; font-weight: 400; color: #fff; }
-        .key small { font-size: 0.65rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; margin-top: -2px; }
-
-        /* Error Shake */
-        .shake { animation: shake 0.4s ease-in-out; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
-        }
-
-        /* 3. Cinematic Text Flow & Smoke/Neon Reveal */
+        /* Cinematic Text Flow & Smoke/Neon Reveal */
         .main-content { display: none; opacity: 0; transition: opacity 1s ease; }
         
         .cinematic-text-box {
-            min-height: 200px;
+            min-height: 220px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -184,43 +158,30 @@
 </head>
 <body>
 
-    <!-- 1. Background Core Components -->
+    <!-- Background Core Components -->
     <div class="orb orb-1" id="orb1"></div>
     <div class="orb orb-2" id="orb2"></div>
     <div class="orb orb-3" id="orb3"></div>
 
-    <!-- 5. Fluid Canvas -->
+    <!-- Fluid Canvas -->
     <canvas id="heartCanvas"></canvas>
 
-    <!-- 4. Hidden Cinematic Audio (YouTube API Player) -->
+    <!-- Hidden Cinematic Audio (YouTube API Player) -->
     <div id="youtube-player-container"><div id="player"></div></div>
 
     <!-- Main Dynamic Glass Box -->
     <div class="container" id="mainContainer">
         
-        <!-- 2. Android Optimized Passcode Lock Screen -->
+        <!-- Direct Unlock Screen (Android 100% Fix) -->
         <div class="lock-screen" id="lockScreen">
-            <h2>Enter Passcode</h2>
-            <!-- नंबर दिखने वाला बॉक्स (Android Fix) -->
-            <div class="passcode-display" id="passCodeBox"></div>
-            
-            <div class="keypad">
-                <div class="key" onclick="pressKey('1')"><span>1</span><small>&nbsp;</small></div>
-                <div class="key" onclick="pressKey('2')"><span>2</span><small>ABC</small></div>
-                <div class="key" onclick="pressKey('3')"><span>3</span><small>DEF</small></div>
-                <div class="key" onclick="pressKey('4')"><span>4</span><small>GHI</small></div>
-                <div class="key" onclick="pressKey('5')"><span>5</span><small>JKL</small></div>
-                <div class="key" onclick="pressKey('6')"><span>6</span><small>MNO</small></div>
-                <div class="key" onclick="pressKey('7')"><span>7</span><small>PQRS</small></div>
-                <div class="key" onclick="pressKey('8')"><span>8</span><small>TUV</small></div>
-                <div class="key" onclick="pressKey('9')"><span>9</span><small>WXYZ</small></div>
-                <div class="key" style="opacity: 0; pointer-events: none;"></div>
-                <div class="key" onclick="pressKey('0')"><span>0</span><small>&nbsp;</small></div>
-                <div class="key" onclick="clearPasscode()"><span style="font-size:0.9rem; font-weight:600;">DEL</span></div>
-            </div>
+            <h2>🎁 A Special Gift For You</h2>
+            <p>Click below to unlock the magic surprise</p>
+            <button class="magic-btn" onclick="unlockApp()">
+                <span>✨ Unlock Magic</span>
+            </button>
         </div>
 
-        <!-- 3. Cinematic Presentation Box -->
+        <!-- Cinematic Presentation Box -->
         <div class="main-content" id="mainContent">
             <div class="cinematic-text-box" id="textFlowBox">
                 <!-- Lines will fluidly fade in/out here -->
@@ -230,47 +191,93 @@
     </div>
 
     <script>
-        // 2. Audio Mechanics (Tick Sound) & Vibrations
-        let audioCtx;
-        function initAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playTickSound() {
-            try {
-                initAudioContext();
-                if (audioCtx && audioCtx.state !== 'suspended') {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.05);
-                }
-            } catch(e) { console.log(e); }
-        }
-
         function triggerVibration() {
-            if (navigator.vibrate) navigator.vibrate(15);
+            if (navigator.vibrate) navigator.vibrate(20);
         }
 
-        // Passcode Target Definition
-        const CORRECT_PASSCODE = "2026"; 
-        let currentInput = "";
+        // Android Seamless Audio Setup (YouTube Player API)
+        var tag = document.createElement('script');
+        tag.src = "https://youtube.com";
+        var firstScriptTag = document.getElementsByTagName('script');
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        function pressKey(num) {
-            if (currentInput.length >= 4) return;
-            initAudioContext();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            playTickSound();
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '1', width: '1',
+                videoId: 'QwLQ4_gkvsE', // किशोर कुमार - पल पल दिल के पास
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'rel': 0, 'playsinline': 1 },
+                events: { 'onReady': function(e) { e.target.mute(); } }
+            });
+        }
+
+        // Direct Button Unlock
+        function unlockApp() {
             triggerVibration();
-            currentInput += num;
-            updateDisplay();
+            
+            if (player && typeof player.playVideo === 'function') {
+                player.unMute();
+                player.setVolume(100);
+                player.playVideo();
+            }
+
+            document.getElementById('lockScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('lockScreen').style.display = 'none';
+                const mainContent = document.getElementById('mainContent');
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                    startInteractiveMovement();
+                    startHeartRain();
+                    startCinematicPoetry();
+                }, 50);
+            }, 400);
+        }
+
+        // Move Orbs Smoothly via Touch/Mouse Post-Unlock
+        function startInteractiveMovement() {
+            const handleMove = (clientX, clientY) => {
+                const x = (clientX / window.innerWidth) * 40 - 20;
+                const y = (clientY / window.innerHeight) * 40 - 20;
+                document.getElementById('orb1').style.transform = `translate(${x}px, ${y}px)`;
+                document.getElementById('orb2').style.transform = `translate(${-x}px, ${-y}px)`;
+            };
+            
+            document.body.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+            document.body.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            });
+        }
+
+        // Cinematic Smoke & Neon Text Flow Engine
+        const poetryLines = [
+            "आज का दिन कुछ खास है...",
+            "दुआ है मेरी, खुशियां हमेशा आपके पास हों। ✨",
+            "हर लम्हा महके आपकी मुस्कान से,",
+            "जन्मदिन मुबारक हो मेरे <span class='highlight'>सबसे प्यारे दोस्त</span> को! 🎉"
+        ];
+
+        function startCinematicPoetry() {
+            const container = document.getElementById('textFlowBox');
+            let dynamicIndex = 0;
+
+            function showNextLine() {
+                if (dynamicIndex >= poetryLines.length) return;
+
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'poetry-line';
+                lineDiv.innerHTML = poetryLines[dynamicIndex];
+                container.appendChild(lineDiv);
+
+                setTimeout(() => lineDiv.classList.add('active'), 50);
+
+                setTimeout(() => {
+                    lineDiv.classList.remove('active');
+                    lineDiv.classList.add('exit');
+                    setTimeout(() => lineDiv.remove(), 1500);
+                    
+                    dynamicIndex++;
+                    setTimeout(showNextLine, 500);
+                }, 3500);
+            }
